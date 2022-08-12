@@ -1,0 +1,102 @@
+USE [FACILITY MANAGEMENT SYSTEM];
+
+SELECT * 
+FROM Reservation LEFT JOIN Person ON Reservation.SSN = Person.SSN;
+
+SELECT * 
+FROM Building_Has_Facility RIGHT OUTER JOIN Facility ON Building_Has_Facility.Facility_Name = Facility.Facility_Name;
+
+SELECT * 
+FROM Person INNER JOIN Tenants_Dependents ON Person.SSN = Tenants_Dependents.SSN;
+
+SELECT * 
+FROM Facility, Facility_Location 
+WHERE Facility.Facility_Name = Facility_Location.Facility_Name;
+
+SELECT * 
+FROM Reservation FULL OUTER JOIN Employee ON Reservation.Emp_Id = Employee.Emp_Id;
+
+SELECT DISTINCT Full_Name, City, Province
+From Person
+WHERE Person_Type = 'Guest';
+
+SELECT Facility_Name, COUNT(Facility_Name) AS TotalReservations 
+FROM Reservation GROUP BY Facility_Name;
+
+UPDATE Person
+SET Email = 'P.Van213@gmail.com', Phone_Num = '609-886-2212'
+WHERE SSN = 100987454;
+SELECT * from Person
+
+UPDATE Reservation
+SET Res_Status = 'Showed Up'
+WHERE Res_Num = 455122;
+SELECT * from Reservation
+
+UPDATE Reservation
+SET Res_Status = 'No Show'
+WHERE Res_Num = 455121;
+SELECT * from Reservation
+
+UPDATE Reservation
+SET Res_Date = '20220402'
+WHERE Res_Num = 455124;
+SELECT * from Reservation
+
+DELETE FROM Employee 
+WHERE Emp_Id = 000541;
+SELECT * from Employee
+
+DELETE FROM Reservation 
+WHERE Res_Num = 455124;
+SELECT * from Reservation
+
+SELECT DISTINCT SSN, Full_Name, Person_Type 
+FROM Person WHERE SSN IN (SELECT DISTINCT SSN FROM Reservation);
+
+SELECT Res_Num, SSN, Deposit 
+FROM Reservation 
+WHERE Deposit = (SELECT MAX(Deposit) FROM Reservation);
+
+SELECT COUNT(SSN) AS March2022_Reservations
+FROM Reservation
+WHERE Res_Date BETWEEN '20220301' AND '20220331';  
+
+SELECT COUNT(SSN) AS March2022_Reservations
+FROM Reservation
+WHERE Res_Date BETWEEN '06:00:00' AND '11:00:00' IN (SELECT Res_Date FROM Reservation;  
+
+SELECT SUM(Deposit) AS TotalOlympusDeposit
+FROM Reservation
+WHERE Facility_Name = 'Olympus';
+
+GO 
+CREATE VIEW PendingReservation 
+AS
+SELECT Res_Num, Res_Date, Res_Status
+FROM Reservation
+WHERE Res_Status = 'Pending';
+
+SELECT * FROM PendingReservation;
+DROP VIEW PendingReservation;
+
+CREATE VIEW largeGroupReservation 
+AS
+SELECT Facility_Name, Res_Num, Res_Date, Num_Person
+FROM Reservation
+WHERE Num_Person >= 15;
+
+SELECT * FROM largeGroupReservation;
+DROP VIEW largeGroupReservation;
+
+
+
+
+
+
+
+
+
+
+
+
